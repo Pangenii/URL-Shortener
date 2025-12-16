@@ -10,7 +10,7 @@ app.use(express.json())
 connectToDB(process.env.MONGO_URI)
 
 //routes
-app.use("/api/url", urlRoutes)
+app.use("/", urlRoutes)
 
 const PORT = process.env.PORT || 3000;
 
