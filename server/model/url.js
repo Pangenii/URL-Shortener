@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
-const urlSchema = new mongoose({
+const urlSchema = new mongoose.Schema({
+    shortId: {
+        type: String,
+        required: true,
+        unique: true
+    },
     shortUrl: {
         type: String,
         unique: true,
@@ -17,4 +22,5 @@ const urlSchema = new mongoose({
     }]
 }, { timestamps: true })
 
-modules.exports = mongoose.model("url", urlSchema)
+const URL = mongoose.model("url", urlSchema)
+export default URL;
