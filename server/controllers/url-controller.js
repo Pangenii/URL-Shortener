@@ -19,6 +19,7 @@ export const generateUrl = async (req, res) => {
         })
         res.status(201).json({
             success: true,
+            shortUrl: shortUrl,
             result: urlInfo,
             message: "Short URL generated successfully"
         })
