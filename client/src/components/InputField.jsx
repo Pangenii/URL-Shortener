@@ -1,9 +1,26 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const InputField = () => {
   const [modalopen, setModalopen] = useState(false);
+  const [originalUrl, setOriginalUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const handleShorten = async () => {
+    try {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/`, {
+        originalUrl,
+      });
+
+      if (data.success) {
+        setShortUrl(data.shortUrl);
+        setModalopen(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const copyHandler = () => {
-    console.log("copy handler is working");
+    navigator.clipboard.writeText(shortUrl);
   };
   return (
     <>
@@ -11,13 +28,13 @@ const InputField = () => {
         <input
           type="text"
           className="block w-2xl px-6 py-2 bg-neutral-600 border-rose-600 rounded-l-2xl focus:outline-1 outline-indigo-300"
-          placeholder="Paste your text here"
+          placeholder="Paste your link here"
+          value={originalUrl}
+          onChange={(e) => setOriginalUrl(e.target.value)}
         />
         <button
           className="bg-blue-500 px-6 rounded-r-xl text-sm font-bold tracking-widest uppercase"
-          onClick={() => {
-            setModalopen(true);
-          }}
+          onClick={handleShorten}
         >
           get
         </button>
@@ -30,7 +47,7 @@ const InputField = () => {
               <input
                 type="text"
                 className="block w-2xl px-6 py-2 bg-neutral-600 border-rose-600 rounded-l-2xl focus:outline-1 outline-indigo-300"
-                placeholder="Paste your text here"
+                value={shortUrl}
                 readOnly
               />
               <button

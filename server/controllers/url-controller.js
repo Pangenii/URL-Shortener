@@ -1,6 +1,8 @@
 import URL from "../model/url.js"
 import ShortUniqueId from 'short-unique-id';
 import "dotenv/config"
+
+const uid = new ShortUniqueId({ length: 8 });
 export const generateUrl = async (req, res) => {
     try {
         const { originalUrl } = req.body;
@@ -8,7 +10,7 @@ export const generateUrl = async (req, res) => {
             success: false,
             message: "Please Enter URL to shorten it"
         })
-        const uid = new ShortUniqueId({ length: 8 });
+
         const shortId = uid.rnd()
         const shortUrl = `${process.env.BASE_URL}/${shortId}`
         const urlInfo = await URL.create({
